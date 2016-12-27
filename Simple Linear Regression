@@ -52,3 +52,22 @@ class Regression(object):
 
 my_instance = Regression(input1, output1)
 my_instance.findoutput()
+
+""" ------------------------------------------------------------
+One bug: 
+ValueError                                Traceback (most recent call last)
+<ipython-input-1-8561ed204894> in <module>()
+     52 
+     53 my_instance = Regression(input1, output1)
+---> 54 my_instance.findoutput()
+
+<ipython-input-1-8561ed204894> in findoutput(self)
+     38     def findoutput(self):
+     39         m, b = self.findb()
+---> 40         output = (self.xs * m) + b
+     41         return output
+     42 
+
+ValueError: operands could not be broadcast together with shapes (20,) (2,2)
+-----------------------------------------------------------------"""
+
