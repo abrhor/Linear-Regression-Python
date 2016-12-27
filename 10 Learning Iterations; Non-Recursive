@@ -30,12 +30,6 @@ class ForwardAndBackPropagation(object):
         D_sqr = abs_D ** 2.
         return abs_D, D_sqr
 
-    def error(self):
-        D_sqr = self.distance()[1]
-        sigma = np.sum(D_sqr)
-        mean_error = sigma / len(D_sqr)
-        return mean_error
-
     def differentiate_error(self):
         abs_D = self.distance()[0]
         r1 = np.sum(abs_D * self.guess_slope * 2.) / len(abs_D)
