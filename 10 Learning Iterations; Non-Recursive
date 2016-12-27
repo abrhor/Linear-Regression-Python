@@ -1,0 +1,101 @@
+"""Now lets make this recursive: an algorithm"""
+#modules import
+import numpy as np
+import matplotlib.pyplot as plt
+import random
+%matplotlib inline
+
+#create paramaters
+slope = float(random.randint(1,10))
+yintercept = float(random.randint(1,5))
+
+# output = f(x, slope, yintercept) 
+f = lambda xs, m, b : (xs * m) + b
+
+#create input(xs) and output (ys)
+input1 = np.asarray([float(n) for n in np.arange(20)])
+output1 = f(input1, slope, yintercept) 
+
+
+class ForwardAndBackPropagation(object):
+    def __init__(self, xs, realoutput, guessed_slope, guessed_b): 
+        self.xs = np.asarray(xs)
+        self.realoutput = np.asarray(realoutput)
+        self.guess_slope = guessed_slope
+        self.guess_b = guessed_b
+        self.guess_output = (self.guess_slope * self.xs) + self.guess_b
+
+    def distance(self): #returns np.array with distance results
+        abs_D = self.realoutput - self.guess_output
+        D_sqr = abs_D ** 2.
+        return abs_D, D_sqr
+
+    def error(self):
+        D_sqr = self.distance()[1]
+        sigma = np.sum(D_sqr)
+        mean_error = sigma / len(D_sqr)
+        return mean_error
+
+    def differentiate_error(self):
+        abs_D = self.distance()[0]
+        r1 = np.sum(abs_D * self.guess_slope * 2.) / len(abs_D)
+        r2 = np.sum(abs_D * self.guess_b * 2.) / len(abs_D)
+        return r1, r2
+
+    def train(self):
+        r1, r2 = self.differentiate_error()
+        self.guess_slope += -r1 * .5
+        self.guess_b += -r2 * .5
+        return self.guess_slope, self.guess_b
+
+
+initialize = ForwardAndBackPropagation(input1, output1, random.randint(1,10), random.randint(1,10))
+w1v2, w2v2 = initialize.train()
+
+run2 = ForwardAndBackPropagation(input1, output1, w1v2, w2v2)
+w1v3, w2v3 = run2.train()
+
+run3 = ForwardAndBackPropagation(input1, output1, w1v3, w2v3)
+w1v4, w2v4 = run3.train()
+
+run4 = ForwardAndBackPropagation(input1, output1, w1v4, w2v4)
+w1v5, w2v5 = run4.train()
+
+run5 = ForwardAndBackPropagation(input1, output1, w1v5, w2v5)
+w1v6, w2v6 = run5.train()
+
+run6 = ForwardAndBackPropagation(input1, output1, w1v6, w2v6)
+w1v7, w2v7 = run6.train()
+
+run7 = ForwardAndBackPropagation(input1, output1, w1v7, w2v7)
+w1v8, w2v8 = run7.train()
+
+run8 = ForwardAndBackPropagation(input1, output1, w1v8, w2v8)
+w1v9, w2v9 = run8.train()
+
+run9 = ForwardAndBackPropagation(input1, output1, w1v9, w2v9)
+w1v10, w2v10 = run9.train()
+
+run10 = ForwardAndBackPropagation(input1, output1, w1v10, w2v10)
+w1v11, w2v11 = run10.train()
+
+print("Actual Parameters: ", slope, yintercept)
+print("Run 1 Parameters: ", w1v2, w2v2)
+print("Run 4 Parameters: ", w1v5, w2v5)
+print("Run 6 Parameters: ", w1v7, w2v5)
+print("Run 8 Parameters: ", w1v9, w2v9)
+print("Run 9 Parameters: ", w1v10, w2v10)
+
+
+
+final_guessed_output = (input1 * w1v3) + w2v3
+final_guessed_output1=(input1 * w1v5) + w2v5
+final_guessed_output2=(input1 * w1v7) + w2v7
+fig = plt.figure()
+ax = fig.add_subplot(1,1,1)
+ax.scatter(input1, output1, c='r', label='Real Scatter')
+ax.scatter(input1, final_guessed_output, c='g', label='Guessed Scatter 2')
+ax.scatter(input1, final_guessed_output1, c='b', label='Guessed Scatter 4')
+ax.scatter(input1, final_guessed_output2, c='m', label='Guessed Scatter 6')
+plt.legend(loc='upper right')
+plt.show()
