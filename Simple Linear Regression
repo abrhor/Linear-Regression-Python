@@ -1,0 +1,54 @@
+"""Actual Linear Regression"""
+import random
+import numpy as np
+import matplotlib.pyplot as plt
+%matplotlib inline
+
+#create paramaters
+slope = random.randint(1,10)
+yintercept = random.randint(1,5)
+
+# output = f(x, slope, yintercept) 
+f = lambda xs, m, b : (xs * m) + b
+
+#create input(xs) and output (ys)
+input1 = np.arange(20)
+output1 = (input1 * slope) + yintercept
+
+
+class Regression(object):
+    def __init__(self, xs, ys):
+        self.xs = xs
+        self.ys = ys
+
+    def findslope(self):
+        standevx = np.std(self.xs)
+        standevy = np.std(self.ys)
+        corr = np.corrcoef(self.xs, self.ys)
+        m = corr * (standevy / standevx)
+        return m
+
+    def findb(self):
+        m = self.findslope()
+        meanx = np.mean(self.xs)
+        meany = np.mean(self.ys)
+        b = meany - (m * meanx)
+        return m,b
+    
+    def findoutput(self):
+        m, b = self.findb()
+        output = (self.xs * m) + b
+        return output
+
+
+    def plotitall(self):
+        output = self.findoutput()
+        fig = plt.figure()
+        ax = fig.add_subplot(1,1,1)
+        ax.scatter(self.xs, self.ys, c='g', label='Real Output')
+        ax.scatter(self.xs, output, c='m', label='Guessed Output')
+        plt.legend(loc='upper right')
+        plt.show()
+
+my_instance = Regression(input1, output1)
+my_instance.findoutput()
