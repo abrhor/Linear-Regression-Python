@@ -52,9 +52,11 @@ def recursive(m, b):
     run = ForwardAndBackPropagation(input1, output1, m, b)
     new_m, new_b = run.train()
     r1 = run.differentiate_error()[0]
-    while r1 != 0:
+    while True:
         recursive(new_m, new_b)
-    return new_m, new_b
+        if r1 == 0:
+            break
+        return new_m, new_b
 
 randn1 = float(random.randint(1,10))
 randn2 = float(random.randint(1,10))
