@@ -1,0 +1,71 @@
+"""Now lets make this recursive: an algorithm"""
+#modules import
+import numpy as np
+import matplotlib.pyplot as plt
+import random
+%matplotlib inline
+
+#create paramaters
+slope = float(random.randint(1,10))
+yintercept = float(random.randint(1,5))
+
+# output = f(x, slope, yintercept) 
+f = lambda xs, m, b : (xs * m) + b
+
+#create input(xs) and output (ys)
+input1 = np.asarray([float(n) for n in np.arange(20)])
+output1 = f(input1, slope, yintercept) 
+
+
+class ForwardAndBackPropagation(object):
+    def __init__(self, xs, realoutput, guessed_slope, guessed_b): 
+        self.xs = np.asarray(xs)
+        self.realoutput = np.asarray(realoutput)
+        self.guess_slope = guessed_slope
+        self.guess_b = guessed_b
+        self.guess_output = (self.guess_slope * self.xs) + self.guess_b
+
+    def distance(self): #returns np.array with distance results
+        abs_D = self.realoutput - self.guess_output
+        D_sqr = abs_D ** 2.
+        return abs_D, D_sqr
+
+    def error(self):
+        D_sqr = self.distance()[1]
+        sigma = np.sum(D_sqr)
+        mean_error = sigma / len(D_sqr)
+        return mean_error
+
+    def differentiate_error(self):
+        abs_D = self.distance()[0]
+        r1 = (np.sum(abs_D) * self.guess_slope * 2.) / len(abs_D)
+        r2 = (np.sum(abs_D) * self.guess_b * 2.) / len(abs_D)
+        return r1, r2
+
+    def train(self):
+        r1, r2 = self.differentiate_error()
+        self.guess_slope += -r1 * .5
+        self.guess_b += -r2 * .5
+        return self.guess_slope, self.guess_b
+
+def recursive(m, b):
+    run = ForwardAndBackPropagation(input1, output1, m, b)
+    new_m, new_b = run.train()
+    e = run.differentiate_error()
+    while e != 0:
+        recursive(new_m, new_b)
+    return new_m, new_b
+
+randn1 = float(random.randint(1,10))
+randn2 = float(random.randint(1,10))
+
+guessed_slope, guessed_yint = recursive(randn1, randn2)
+final_guessed_output = (input1 * guessed_slope) + guessed_yint
+
+fig = plt.figure()
+ax = fig.add_subplot(1,1,1)
+ax.scatter(input1, output1, c='r', label='Real Scatter')
+ax.scatter(input1, final_guessed_output, c='g', label='Guessed Scatter')
+
+plt.legend(loc='upper right')
+plt.show()
