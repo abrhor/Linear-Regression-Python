@@ -23,7 +23,7 @@ class ForwardAndBackPropagation(object):
         self.realoutput = np.asarray(realoutput)
         self.guess_slope = guessed_slope
         self.guess_b = guessed_b
-        self.guess_output = (self.guess_slope * self.xs) + self.guess_b
+        
 
     def distance(self): #returns np.array with distance results
         abs_D = self.realoutput - self.guess_output
@@ -37,61 +37,20 @@ class ForwardAndBackPropagation(object):
         return r1, r2
 
     def train(self):
+        self.guess_output = (self.guess_slope * self.xs) + self.guess_b
         r1, r2 = self.differentiate_error()
         self.guess_slope += -r1 * .02
         self.guess_b += -r2 * .02
         return self.guess_slope, self.guess_b
-        
-   
+    
+my_instance = ForwardAndBackPropagation(input1, output1, float(random.randint(1,10)), float(random.randint(1,10))
+    
+for i in range(100):
+    my_instance.train()
+else:
+    return my_instance.train()
 
-
-initialize = ForwardAndBackPropagation(input1, output1, random.randint(1,10), random.randint(1,10))
-w1v2, w2v2 = initialize.train()
-
-run2 = ForwardAndBackPropagation(input1, output1, w1v2, w2v2)
-w1v3, w2v3 = run2.train()
-
-run3 = ForwardAndBackPropagation(input1, output1, w1v3, w2v3)
-w1v4, w2v4 = run3.train()
-
-run4 = ForwardAndBackPropagation(input1, output1, w1v4, w2v4)
-w1v5, w2v5 = run4.train()
-
-run5 = ForwardAndBackPropagation(input1, output1, w1v5, w2v5)
-w1v6, w2v6 = run5.train()
-
-run6 = ForwardAndBackPropagation(input1, output1, w1v6, w2v6)
-w1v7, w2v7 = run6.train()
-
-run7 = ForwardAndBackPropagation(input1, output1, w1v7, w2v7)
-w1v8, w2v8 = run7.train()
-
-run8 = ForwardAndBackPropagation(input1, output1, w1v8, w2v8)
-w1v9, w2v9 = run8.train()
-
-run9 = ForwardAndBackPropagation(input1, output1, w1v9, w2v9)
-w1v10, w2v10 = run9.train()
-
-run10 = ForwardAndBackPropagation(input1, output1, w1v10, w2v10)
-w1v11, w2v11 = run10.train()
 
 print("Actual Parameters: ", slope, yintercept)
-print("Run 1 Parameters: ", w1v2, w2v2)
-print("Run 4 Parameters: ", w1v5, w2v5)
-print("Run 6 Parameters: ", w1v7, w2v5)
-print("Run 8 Parameters: ", w1v9, w2v9)
-print("Run 9 Parameters: ", w1v10, w2v10)
 
 
-
-final_guessed_output = (input1 * w1v3) + w2v3
-final_guessed_output1=(input1 * w1v5) + w2v5
-final_guessed_output2=(input1 * w1v7) + w2v7
-fig = plt.figure()
-ax = fig.add_subplot(1,1,1)
-ax.scatter(input1, output1, c='r', label='Real Scatter')
-ax.scatter(input1, final_guessed_output, c='g', label='Guessed Scatter 2')
-ax.scatter(input1, final_guessed_output1, c='b', label='Guessed Scatter 4')
-ax.scatter(input1, final_guessed_output2, c='m', label='Guessed Scatter 6')
-plt.legend(loc='upper right')
-plt.show()
