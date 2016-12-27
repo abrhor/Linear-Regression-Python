@@ -43,7 +43,7 @@ class ForwardAndBackPropagation(object):
         self.guess_b += -r2 * .02
         return self.guess_slope, self.guess_b
     
-my_instance = ForwardAndBackPropagation(input1, output1, float(random.randint(1,10)), float(random.randint(1,10))
+my_instance = ForwardAndBackPropagation(input1, output1, float(random.randint(1,10), float(random.randint(1,10))
     
 for i in range(100):
     my_instance.train()
