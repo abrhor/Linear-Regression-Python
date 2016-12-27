@@ -51,8 +51,8 @@ class ForwardAndBackPropagation(object):
 def recursive(m, b):
     run = ForwardAndBackPropagation(input1, output1, m, b)
     new_m, new_b = run.train()
-    e = run.differentiate_error()
-    while e != 0:
+    r1 = run.differentiate_error()[0]
+    while r1 != 0:
         recursive(new_m, new_b)
     return new_m, new_b
 
