@@ -53,7 +53,8 @@ class Regression(object):
 my_instance = Regression(input1, output1)
 my_instance.findoutput()
 
-""" ------------------------------------------------------------
+""" 
+------------------------------------------------------------
 One bug: 
 ValueError                                Traceback (most recent call last)
 <ipython-input-1-8561ed204894> in <module>()
@@ -69,5 +70,6 @@ ValueError                                Traceback (most recent call last)
      42 
 
 ValueError: operands could not be broadcast together with shapes (20,) (2,2)
------------------------------------------------------------------"""
+-----------------------------------------------------------------
+"""
 
