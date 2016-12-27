@@ -38,8 +38,8 @@ class ForwardAndBackPropagation(object):
 
     def differentiate_error(self):
         abs_D = self.distance()[0]
-        r1 = (np.sum(abs_D) * self.guess_slope * 2.) / len(abs_D)
-        r2 = (np.sum(abs_D) * self.guess_b * 2.) / len(abs_D)
+        r1 = np.sum(abs_D * self.guess_slope * 2.) / len(abs_D)
+        r2 = np.sum(abs_D * self.guess_b * 2.) / len(abs_D)
         return r1, r2
 
     def train(self):
