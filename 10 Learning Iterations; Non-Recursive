@@ -1,28 +1,26 @@
 """Now lets make this recursive: an algorithm"""
 #modules import
 import numpy as np
+import numpy.random as rn
 import matplotlib.pyplot as plt
-import random
 %matplotlib inline
 
 #create paramaters
-slope = float(random.randint(1,10))
-yintercept = float(random.randint(1,5))
+ws = rn.random(2)
 
 # output = f(x, slope, yintercept) 
 f = lambda xs, m, b : (xs * m) + b
 
 #create input(xs) and output (ys)
 input1 = np.asarray([float(n) for n in np.arange(20)])
-output1 = f(input1, slope, yintercept) 
+output1 = f(input1, ws[0], w[1]) 
 
 
-class ForwardAndBackPropagation(object):
-    def __init__(self, xs, realoutput, guessed_slope, guessed_b): 
+class LinearRegression(object):
+    def __init__(self, xs, realoutput, ws): 
         self.xs = np.asarray(xs)
         self.realoutput = np.asarray(realoutput)
-        self.guess_slope = guessed_slope
-        self.guess_b = guessed_b
+        self.ws = ws
         
 
     def distance(self): #returns np.array with distance results
@@ -32,18 +30,18 @@ class ForwardAndBackPropagation(object):
 
     def differentiate_error(self):
         abs_D = self.distance()[0]
-        r1 = np.sum(abs_D * self.guess_slope * 2.) / len(abs_D)
+        r1 = np.sum(abs_D * self.ws[0] * 2.) / len(abs_D)
         r2 = np.sum(abs_D * 2.) / len(abs_D)
         return r1, r2
 
     def train(self):
-        self.guess_output = (self.guess_slope * self.xs) + self.guess_b
-        r1, r2 = self.differentiate_error()
-        self.guess_slope += -r1 * .02
-        self.guess_b += -r2 * .02
-        return self.guess_slope, self.guess_b
+         self.guess_output = (self.ws[0] * self.xs) + self.ws[1]        
+         r1, r2 = self.differentiate_error()        
+         self.ws[0] += -r1 * .02        
+         self.ws[1]-r2 * .02
+         return self.ws
     
-my_instance = ForwardAndBackPropagation(input1, output1, float(random.randint(1,10), float(random.randint(1,10))
+my_instance = LinearRegression(input1, output1, np.random.random(), np.random.random())
     
 for i in range(100):
     my_instance.train()
