@@ -1,11 +1,10 @@
 #modules import
 import numpy as np
-import numpy.random as rn
 import matplotlib.pyplot as plt
 %matplotlib inline
 
 #create paramaters
-ws = rn.random(2)
+ws = [30., 50.]
 
 # output = f(x, slope, yintercept) 
 f = lambda xs, m, b : (xs * m) + b
@@ -16,10 +15,11 @@ output1 = f(input1, ws[0], w[1])
 
 
 class LinearRegression(object):
-    def __init__(self, xs, realoutput, ws): 
+    def __init__(self, xs, realoutput, ws, epsilon): 
         self.xs = np.asarray(xs)
         self.realoutput = np.asarray(realoutput)
         self.ws = ws
+        self.epsilon = epsilon
         
 
     def distance(self): #returns np.array with distance results
@@ -27,27 +27,28 @@ class LinearRegression(object):
         D_sqr = abs_D ** 2.
         return abs_D, D_sqr
 
-    def differentiate_error(self):
+    def differentiate_error(self): # rate of change of error with respect to each parameter
         abs_D = self.distance()[0]
         r1 = np.sum(abs_D * self.ws[0] * 2.) / len(abs_D)
         r2 = np.sum(abs_D * 2.) / len(abs_D)
         return r1, r2
 
-    def train(self):
+    def train(self): # Training via gradient descent
          self.guess_output = (self.ws[0] * self.xs) + self.ws[1]        
          r1, r2 = self.differentiate_error()        
-         self.ws[0] += -r1 * .02        
-         self.ws[1]-r2 * .02
+         self.ws[0] += -r1 * self.epsilon        
+         self.ws[1]-r2 * self.epsilon
          return self.ws
     
-my_instance = LinearRegression(input1, output1, np.random.random(), np.random.random())
+my_instance = LinearRegression(input1, output1, [100., 100.], .000001)
     
-for i in range(100):
+for i in range(10000):
     my_instance.train()
 else:
     return my_instance.train()
 
 
-print("Actual Parameters: ", slope, yintercept)
+print("Predicted Parameters: ", example.ws[0], example.ws[1])
+print("Actual Parameters: ", ws[0], ws[1])
 
 
