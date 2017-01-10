@@ -1,4 +1,3 @@
-"""Now lets make this recursive: an algorithm"""
 #modules import
 import numpy as np
 import numpy.random as rn
